@@ -30,7 +30,7 @@ abstract FormFile(UploadedFile) {
         if(chunk != null) 
           chunk.toBytes();
         else {
-          write.dissolve();
+          write.cancel();
           throw new Error(NotImplemented, 'Can only upload files through JSON backed by with sync sources but got a $src');
         }
       }
@@ -38,7 +38,8 @@ abstract FormFile(UploadedFile) {
   }
   
   @:from static function ofJson(rep:JsonFileRep):FormFile {
-    var data = rep.get();
+    @:jsonParse
+    var data:Dynamic = rep;
     return new FormFile(ofBlob(data.fileName, data.mimeType, data.content));
   }
   

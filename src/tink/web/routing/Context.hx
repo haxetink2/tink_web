@@ -81,7 +81,7 @@ class Context {
         #if tink_multipart
         switch tink.multipart.Multipart.check(this.request) {
           case Some(result):
-            return Future.async(function(cb:Callback<Outcome<Array<Named<FormField>>, Error>>) {
+            return Future.irreversible(function(cb:Callback<Outcome<Array<Named<FormField>>, Error>>) {
               var contentType = result.a;
               var body = result.b.idealize(function(e) {
                 cb.invoke(Failure(e));
